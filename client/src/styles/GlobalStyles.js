@@ -12,7 +12,8 @@ const GlobalStyles = createGlobalStyle`
   }
   body{
     margin: 0;
-    font-family: sans-serif;
+    font-family: 'Montserrat', sans-serif;
+    background-color: #483D8B;
   }
   a{
     text-decoration: none;
