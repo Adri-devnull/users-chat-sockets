@@ -1,6 +1,6 @@
 import styled from 'styled-components';
 
-const StyledContainerLogin = styled.div`
+const StyledFormLogin = styled.form`
 	background-color: aliceblue;
 	height: 400px;
 	padding: 30px;
@@ -49,7 +49,7 @@ const StyledButton = styled.button`
 `;
 export {
 	StyledButton,
-	StyledContainerLogin,
+	StyledFormLogin,
 	StyledImg,
 	StyledInput,
 	StyledInputContainer,

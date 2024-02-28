@@ -1,7 +1,8 @@
 import { useNavigate } from 'react-router-dom';
+import { socket } from '../../sockets/socket';
 import {
 	StyledButton,
-	StyledContainerLogin,
+	StyledFormLogin,
 	StyledImg,
 	StyledInput,
 	StyledInputContainer,
@@ -10,8 +11,9 @@ import {
 
 const Login = () => {
 	const navigate = useNavigate();
+
 	return (
-		<StyledContainerLogin>
+		<StyledFormLogin onSubmit={event => sendUsername(event, navigate, socket)}>
 			<div>
 				<StyledImg
 					src='assets/images/chat.png'
@@ -19,14 +21,23 @@ const Login = () => {
 				/>
 			</div>
 			<StyledInputContainer>
-				<StyledLabel htmlFor='name'>Introduce tu nombre de usuario</StyledLabel>
-				<StyledInput type='text' id='name' name='name' />
+				<StyledLabel htmlFor='username'>
+					Introduce tu nombre de usuario
+				</StyledLabel>
+				<StyledInput type='text' id='username' />
 			</StyledInputContainer>
-			<StyledButton onClick={() => navigate('/chat')}>
-				Entrar al chat
-			</StyledButton>
-		</StyledContainerLogin>
+			<StyledButton>Entrar al chat</StyledButton>
+		</StyledFormLogin>
 	);
+};
+
+// FUNCION PARA ENVIAR EL NOMBRE DEL USUARIO
+const sendUsername = (event, navigate, socket) => {
+	event.preventDefault();
+	const username = event.target.username.value;
+	event.target.reset();
+	navigate('/chat');
+	socket.emit('login', username);
 };
 
 export default Login;
