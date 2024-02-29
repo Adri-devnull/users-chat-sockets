@@ -26,6 +26,8 @@ const establishSocketConnection = (socket, io) => {
     io.emit("allMessages", messages);
   });
 
+  io.emit("allMessages", messages);
+
   // MUESTRA TODOS LOS USUARIOS DEL CHAT A CADA UNO DE LOS SOCKETS
   io.emit("users", allUsers);
 };

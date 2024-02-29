@@ -5,6 +5,8 @@ import { socket } from '../../sockets/socket';
 import Messages from '../messages/Messages';
 import {
 	StyledChatContainer,
+	StyledContainerMain,
+	StyledForm,
 	StyledMessages,
 	StyledMessagesContainer,
 	StyledUsersConnected
@@ -18,11 +20,10 @@ const Chat = () => {
 
 	useEffect(() => {
 		socket.on('users', allUsersConnected => {
-			if (allUsersConnected.length === 0) {
-				navigate('/');
-			}
-			setUsers(allUsersConnected);
+			getAllOfUsers(allUsersConnected, setUsers, navigate);
 		});
+
+		return () => socket.off('users', getAllOfUsers);
 	}, []);
 
 	useEffect(() => {
@@ -32,7 +33,7 @@ const Chat = () => {
 	}, []);
 
 	return (
-		<div>
+		<StyledContainerMain>
 			<StyledChatContainer>
 				<StyledUsersConnected>
 					<h3>Usuarios</h3>
@@ -44,6 +45,15 @@ const Chat = () => {
 				</StyledUsersConnected>
 
 				<StyledMessages>
+					{users
+						.filter(user => user.id === socket.id)
+						.map(filteredUser => {
+							return (
+								<span key={filteredUser.id}>
+									Bienvenido {filteredUser.username}!
+								</span>
+							);
+						})}
 					<h3>Mensajes del chat</h3>
 					{messages.map(msg => (
 						<StyledMessagesContainer key={v4()}>
@@ -56,11 +66,13 @@ const Chat = () => {
 					))}
 				</StyledMessages>
 			</StyledChatContainer>
-			<form onSubmit={event => sendMessage(event, userColors, setUserColors)}>
+			<StyledForm
+				onSubmit={event => sendMessage(event, userColors, setUserColors)}
+			>
 				<input type='text' id='message' />
 				<button>Send</button>
-			</form>
-		</div>
+			</StyledForm>
+		</StyledContainerMain>
 	);
 };
 
@@ -96,6 +108,13 @@ const asignUserColor = (userColors, setUserColors) => {
 		return color;
 	}
 	return userColors[userId];
+};
+
+const getAllOfUsers = (users, setUsers, navigate) => {
+	if (users.length === 0) {
+		navigate('/');
+	}
+	setUsers(users);
 };
 
 export default Chat;
