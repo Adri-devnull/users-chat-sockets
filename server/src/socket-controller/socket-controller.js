@@ -16,7 +16,15 @@ const establishSocketConnection = (socket, io) => {
     io.emit("users", allUsers);
   });
 
-  //
+  // RECIBE MENSAJE DEL USUARIO Y DEVUELVE TODOS
+  socket.on("message", (msg) => {
+    messages.push({
+      username: socket.username,
+      message: msg.msg,
+      color: msg.color
+    });
+    io.emit("allMessages", messages);
+  });
 
   // MUESTRA TODOS LOS USUARIOS DEL CHAT A CADA UNO DE LOS SOCKETS
   io.emit("users", allUsers);

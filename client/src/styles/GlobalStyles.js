@@ -19,6 +19,9 @@ const GlobalStyles = createGlobalStyle`
     text-decoration: none;
     color: inherit;
   }
+  h3 {
+    margin: 0;
+  }
   ul{
     list-style: none;
     margin-top: 0;

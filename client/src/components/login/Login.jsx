@@ -35,6 +35,7 @@ const Login = () => {
 const sendUsername = (event, navigate, socket) => {
 	event.preventDefault();
 	const username = event.target.username.value;
+	if (!username) return alert('Necesitas un nombre de usuario');
 	event.target.reset();
 	navigate('/chat');
 	socket.emit('login', username);
